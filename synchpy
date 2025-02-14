@@ -1,3 +1,41 @@
 #!/home/user/synchpy/.venv/bin/python
 
+from pathlib import Path
+import argparse
+import sys
 
+class Synch:
+  def __init__(self, source_path: str, replica_path: str):
+    self.source_path = Path(source_path).resolve()
+    self.replica_path = Path(replica_path).resolve()
+    
+    if not self.source_path.exists():
+      raise FileNotFoundError(f"Source does not exist: {self.source_path}")
+    
+    
+    
+  
+  
+def main():
+  parser = argparse.ArgumentParser()
+  parser.add_argument('-s', '--source', default=Path.cwd(), help="Source folder path" )
+  parser.add_argument('-r', '--replica', required=True, help="Replica folder path")
+  
+  args = parser.parse_args()
+  try:
+    synch = Synch(
+      source_path=args.source,
+      replica_path=args.replica
+    )
+    
+    synch.run()
+  except Exception as e:
+    print(f"Error: {e}")
+    sys.exit(1)
+  
+  pass
+
+
+if __name__ == "__main__":
+  main()
+    
