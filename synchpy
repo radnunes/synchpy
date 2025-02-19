@@ -10,16 +10,26 @@ class Sync:
         :param source_path: The path to the source directory.
         :param replica_path: The path to the replica directory.
         """
-        self.source_path = Path(source_path).resolve()  # Convert source path to absolute path
-        self.replica_path = Path(replica_path).resolve()  # Convert replica path to absolute path
-
+        self.source_path = Path(source_path).resolve()  
+        self.replica_path = Path(replica_path).resolve()
         if not self.source_path.exists():
             raise FileNotFoundError(f"Source does not exist: {self.source_path}")
           
         self.replica_path.mkdir(parents=True, exist_ok=True)
           
     def sync(self):
-      pass
+        source_files = {} 
+        for f in self.source_path.rglob("*"): 
+            if f.is_file(): 
+                relative_path = f.relative_to(self.source_path) 
+                source_files[relative_path] = f 
+
+        replica_files = {}
+        for f in self.replica_path.rglob("*"):
+            if f.is_file():
+                relative_path = f.relative_to(self.replica_path)
+                replica_files[relative_path] = f
+                
 
         
 
